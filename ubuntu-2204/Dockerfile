@@ -13,7 +13,8 @@ RUN apt install -y \
     locales \
     nano \
     sudo \
-    wget
+    wget \
+    zsh
 
 
 # Set timezone
@@ -25,7 +26,7 @@ ARG WSL_USER
 ARG WSL_USER_PASS
 
 RUN locale-gen en_US.UTF-8 
-RUN adduser --quiet --disabled-password --shell /bin/bash \
+RUN adduser --quiet --disabled-password --shell /bin/zsh \
     --home /home/${WSL_USER} --gecos "User" ${WSL_USER} && \ 
     echo "${WSL_USER}:${WSL_USER_PASS}" | chpasswd && \
     usermod -aG sudo ${WSL_USER}
@@ -37,4 +38,13 @@ USER $WSL_USER
 
 WORKDIR /home/${WSL_USER}
 
-CMD ["/bin/bash"]
+RUN sh -c "$(wget -O- https://github.com/ohmyzsh/ohmyzsh/raw/master/tools/install.sh)"
+
+# COPY zshrc /home/${WSL_USER}/.zshrc
+ENV TERM xterm
+ENV ZSH_THEME xiong-chiamiov-plus
+
+# ZSH_THEME, Replace robbyrussell theme with xiong-chiamiov-plus
+RUN sed -i s/'ZSH_THEME="robbyrussell"/ZSH_THEME="xiong-chiamiov-plus"/g' .zshrc
+
+CMD ["/bin/zsh"]
