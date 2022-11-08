@@ -16,23 +16,21 @@ RUN apt install -y \
     wget \
     zsh
 
-
 # Set timezone
 RUN DEBIAN_FRONTEND=noninteractive apt install -y tzdata
 ENV TZ=Europe/Oslo
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ >/etc/timezone
 
 ARG WSL_USER
 ARG WSL_USER_PASS
 
-RUN locale-gen en_US.UTF-8 
+RUN locale-gen en_US.UTF-8
 RUN adduser --quiet --disabled-password --shell /bin/zsh \
     --home /home/${WSL_USER} --gecos "User" ${WSL_USER} && \ 
-    echo "${WSL_USER}:${WSL_USER_PASS}" | chpasswd && \
+    echo "${WSL_USER}:${WSL_USER_PASS}" | chpasswd &&
     usermod -aG sudo ${WSL_USER}
 
 RUN echo "[user]\ndefault=${WSL_USER}" >/etc/wsl.conf
-
 
 USER $WSL_USER
 
