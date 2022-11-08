@@ -40,6 +40,10 @@ RUN usermod -aG sudo ${WSL_USER}
 
 RUN echo "[user]\ndefault=${WSL_USER}" >/etc/wsl.conf
 
+RUN mkdir /home/${WSL_USER}/.config
+COPY ./config /home/${WSL_USER}/.config/nvim
+RUN chown -R tn:tn /home/${WSL_USER}/.config
+
 USER $WSL_USER
 
 WORKDIR /home/${WSL_USER}
@@ -53,5 +57,8 @@ ENV ZSH_THEME xiong-chiamiov-plus
 # ZSH_THEME, Replace robbyrussell theme with xiong-chiamiov-plus
 RUN sed -i s/'ZSH_THEME="robbyrussell"/ZSH_THEME="xiong-chiamiov-plus"/g' .zshrc
 
+RUN git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
+RUN echo export PATH="/home/tn/.local/bin:$PATH" >> .zshrc
 
 CMD ["/bin/zsh"]
