@@ -14,6 +14,8 @@ RUN apt install -y \
     nano \
     sudo \
     wget \
+    iputils-ping \
+    iproute2 \
     zsh
 
 # Prepare and Install Neovim
