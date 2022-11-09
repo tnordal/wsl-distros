@@ -58,6 +58,14 @@ return require('packer').startup(function(use)
 end)
 
 ```
+**Build Image**
+```sh
+export WSL_USER=username
+export WSL_USER_PASS=userpassword
+
+docker build --build-arg WSL_USER=$WSL_USER --build-arg  WSL_USER_PASS=$WSL_USER_PASS -t ubuntu22.04_dev:latest .
+
+```
 
 ### HowTo from https://source.coveo.com/2019/10/18/wsl-from-dockerfile/
 ```sh
