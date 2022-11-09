@@ -38,7 +38,9 @@ ARG WSL_USER
 ARG WSL_USER_PASS
 
 RUN locale-gen en_US.UTF-8
-RUN adduser --quiet --disabled-password --shell /bin/zsh --home /home/${WSL_USER} --gecos "User" ${WSL_USER}
+RUN adduser --quiet --disabled-password --shell /bin/zsh \ 
+--home /home/${WSL_USER} --gecos "User" ${WSL_USER}
+
 RUN echo "${WSL_USER}:${WSL_USER_PASS}" | chpasswd
 RUN usermod -aG sudo ${WSL_USER}
 
@@ -61,7 +63,25 @@ ENV ZSH_THEME xiong-chiamiov-plus
 # ZSH_THEME, Replace robbyrussell theme with xiong-chiamiov-plus
 RUN sed -i s/'ZSH_THEME="robbyrussell"/ZSH_THEME="xiong-chiamiov-plus"/g' .zshrc
 
-RUN git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+RUN git clone --depth 1 https://github.com/wbthomason/packer.nvim \ 
+~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
+# Install fonts Powerlevel10k
+RUN mkdir -p ~/.local/share/fonts && cd ~/.local/share/fonts
+RUN curl https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf \ 
+-o ~/.local/share/fonts/'MesloLGS NF Regular.ttf'
+
+RUN curl https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf \ 
+-o ~/.local/share/fonts/'MesloLGS NF Bold.ttf'
+
+RUN curl https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf \ 
+-o ~/.local/share/fonts/'MesloLGS NF Italic.ttf'
+
+RUN curl https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf \ 
+-o ~/.local/share/fonts/'MesloLGS NF Bold Italic.ttf'
+
+# Install Powerlevel10k
+RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k && \ 
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 
 CMD ["/bin/zsh"]
