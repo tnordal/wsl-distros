@@ -17,6 +17,7 @@ RUN apt install -y \
     iputils-ping \
     iproute2 \
     mc \
+    rsync \
     zsh
 
 # Prepare and Install Neovim
