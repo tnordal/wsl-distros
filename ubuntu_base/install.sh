@@ -17,5 +17,9 @@ sudo apt update && sudo apt upgrade -y
 #     rsync \
 #     zsh
 
-# Install oh-my-zsh
-sh -c "$(wget -O- https://github.com/ohmyzsh/ohmyzsh/raw/master/tools/install.sh)"
+# # Install oh-my-zsh
+# echo "Install oh-my-zsh"
+# sh -c "$(wget -O- https://github.com/ohmyzsh/ohmyzsh/raw/master/tools/install.sh)"
+
+# echo "Change THEME ....."
+# sed -i s/'ZSH_THEME="robbyrussell"/ZSH_THEME="xiong-chiamiov-plus"/g' .zshrc

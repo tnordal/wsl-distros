@@ -45,4 +45,13 @@ RUN chmod +x install.sh && chown ${WSL_USER}:${WSL_USER} install.sh
 
 USER $WSL_USER
 
+RUN sh -c "$(wget -O- https://github.com/ohmyzsh/ohmyzsh/raw/master/tools/install.sh)"
+
+# COPY zshrc /home/${WSL_USER}/.zshrc
+ENV TERM xterm
+ENV ZSH_THEME xiong-chiamiov-plus
+
+# ZSH_THEME, Replace robbyrussell theme with xiong-chiamiov-plus
+RUN sed -i s/'ZSH_THEME="robbyrussell"/ZSH_THEME="xiong-chiamiov-plus"/g' .zshrc
+
 CMD ["/bin/bash"]
