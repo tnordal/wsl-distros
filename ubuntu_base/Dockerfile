@@ -8,6 +8,20 @@ LABEL maintainer="Tom Nordal <tnordal@gmail.com>"
 RUN apt update && apt upgrade -y
 RUN apt install -y sudo locales
 
+# Install base software
+RUN apt install -y \
+    curl \
+    git-core \
+    nano \
+    sudo \
+    wget \
+    iputils-ping \
+    iproute2 \
+    mc \
+    rsync \
+    zsh
+
+
 # Set timezone
 RUN DEBIAN_FRONTEND=noninteractive apt install -y tzdata
 ENV TZ=Europe/Oslo
